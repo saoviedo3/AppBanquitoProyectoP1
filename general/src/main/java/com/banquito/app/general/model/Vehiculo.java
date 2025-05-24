@@ -1,8 +1,10 @@
 package com.banquito.app.general.model;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
@@ -12,16 +14,16 @@ import jakarta.persistence.Table;
 @Table(name = "Vehiculos")
 public class Vehiculo {
 
-    @EmbeddedId
-    private VehiculoId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "IdVehiculo", nullable = false)
+    private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "IdIdentificadorVehiculo", referencedColumnName = "IdIdentificadorVehiculo", insertable = false, updatable = false)
-    private IdentificadorVehiculo identificadorVehiculo;
+    @Column(name = "IdIdentificadorVehiculo", nullable = false)
+    private Long idIdentificadorVehiculo;
 
-    @ManyToOne
-    @JoinColumn(name = "IdConcesionario", referencedColumnName = "IdConcesionario", insertable = false, updatable = false)
-    private Concesionario concesionario;
+    @Column(name = "IdConcesionario", nullable = false)
+    private Long idConcesionario;
 
     @Column(name = "Marca", length = 40, nullable = false)
     private String marca;
@@ -41,19 +43,43 @@ public class Vehiculo {
     @Column(name = "Extras", length = 150, nullable = false)
     private String extras;
 
+    @OneToOne
+    @JoinColumn(name = "IdIdentificadorVehiculo", referencedColumnName = "IdIdentificadorVehiculo", insertable = false, updatable = false)
+    private IdentificadorVehiculo identificadorVehiculo;
+
+    @ManyToOne
+    @JoinColumn(name = "IdConcesionario", referencedColumnName = "IdConcesionario", insertable = false, updatable = false)
+    private Concesionario concesionario;
+
     public Vehiculo() {
     }
 
-    public Vehiculo(VehiculoId id) {
+    public Vehiculo(Long id) {
         this.id = id;
     }
 
-    public VehiculoId getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(VehiculoId id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getIdIdentificadorVehiculo() {
+        return idIdentificadorVehiculo;
+    }
+
+    public void setIdIdentificadorVehiculo(Long idIdentificadorVehiculo) {
+        this.idIdentificadorVehiculo = idIdentificadorVehiculo;
+    }
+
+    public Long getIdConcesionario() {
+        return idConcesionario;
+    }
+
+    public void setIdConcesionario(Long idConcesionario) {
+        this.idConcesionario = idConcesionario;
     }
 
     public String getMarca() {
@@ -147,8 +173,10 @@ public class Vehiculo {
 
     @Override
     public String toString() {
-        return "Vehiculo [id=" + id + ", marca=" + marca + ", modelo=" + modelo + ", anio=" + anio + ", valor=" + valor
-                + ", color=" + color + ", extras=" + extras + "]";
+        return "Vehiculo [id=" + id + ", idIdentificadorVehiculo=" + idIdentificadorVehiculo + ", idConcesionario="
+                + idConcesionario + ", marca=" + marca + ", modelo=" + modelo + ", anio=" + anio + ", valor=" + valor
+                + ", color=" + color + ", extras=" + extras + ", identificadorVehiculo=" + identificadorVehiculo
+                + ", concesionario=" + concesionario + "]";
     }
 
 }
